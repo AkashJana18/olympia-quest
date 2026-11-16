@@ -1,10 +1,10 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
-// Project pages live at https://<user>.github.io/olympia-quest/
-// Change this if you rename the repository.
+// Vercel and the custom domain serve from the root.
+// GitHub Pages builds set VITE_BASE=/olympia-quest/ in the workflow.
 export default defineConfig({
-  base: '/olympia-quest/',
+  base: process.env.VITE_BASE || '/',
   plugins: [react()],
   build: {
     target: 'es2020',
