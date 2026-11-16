@@ -74,7 +74,7 @@ function buildBase(floor: Floor): HTMLCanvasElement {
   const ctx = c.getContext("2d");
   if (!ctx) return c;
 
-  ctx.fillStyle = "#08080E";
+  ctx.fillStyle = "#0A0A12";
   ctx.fillRect(0, 0, floor.width, floor.height);
 
   const glow = ctx.createRadialGradient(
@@ -91,7 +91,7 @@ function buildBase(floor: Floor): HTMLCanvasElement {
   ctx.fillStyle = glow;
   ctx.fillRect(0, 0, floor.width, floor.height);
 
-  ctx.strokeStyle = "rgba(255,255,255,0.022)";
+  ctx.strokeStyle = "rgba(255,255,255,0.028)";
   ctx.lineWidth = 1;
   for (let x = 80; x < floor.width; x += 80) {
     ctx.beginPath();
@@ -108,14 +108,61 @@ function buildBase(floor: Floor): HTMLCanvasElement {
 
   for (const z of floor.zones) {
     const tone = TONE[z.tone] ?? "#ffffff";
-    ctx.fillStyle = hexA(tone, 0.045);
+    ctx.fillStyle = hexA(tone, 0.055);
     rr(ctx, z.x, z.y, z.w, z.h, 20);
     ctx.fill();
-    ctx.strokeStyle = hexA(tone, 0.13);
+    ctx.strokeStyle = hexA(tone, 0.16);
     ctx.lineWidth = 1;
     ctx.setLineDash([7, 9]);
     ctx.stroke();
     ctx.setLineDash([]);
+  }
+
+  if (floor.id === "ground") {
+    const cx = floor.width / 2;
+    const cy = 690;
+    ctx.save();
+    ctx.translate(cx, cy);
+    const halo = ctx.createRadialGradient(0, 0, 0, 0, 0, 230);
+    halo.addColorStop(0, "rgba(153,69,255,0.12)");
+    halo.addColorStop(0.6, "rgba(153,69,255,0.04)");
+    halo.addColorStop(1, "rgba(153,69,255,0)");
+    ctx.fillStyle = halo;
+    ctx.beginPath();
+    ctx.arc(0, 0, 230, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = "rgba(255,255,255,0.055)";
+    ctx.lineWidth = 1;
+    for (const r of [86, 140, 196]) {
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.strokeStyle = "rgba(20,241,149,0.16)";
+    ctx.setLineDash([8, 12]);
+    ctx.beginPath();
+    ctx.arc(0, 0, 168, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.strokeStyle = "rgba(255,255,255,0.1)";
+    ctx.beginPath();
+    ctx.moveTo(0, -46);
+    ctx.lineTo(40, 0);
+    ctx.lineTo(0, 46);
+    ctx.lineTo(-40, 0);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.textAlign = "center";
+    ctx.fillStyle = "rgba(255,255,255,0.13)";
+    ctx.font = '600 22px "Space Grotesk Variable", system-ui, sans-serif';
+    ctx.fillText("BP26", 0, 8);
+    ctx.fillStyle = "rgba(255,255,255,0.08)";
+    ctx.font = '500 8px "JetBrains Mono Variable", ui-monospace, monospace';
+    ctx.fillText("LONDON · REMOTE FLOOR", 0, 24);
+    ctx.restore();
   }
 
   ctx.strokeStyle = "rgba(255,255,255,0.055)";
@@ -167,7 +214,7 @@ function buildBase(floor: Floor): HTMLCanvasElement {
 
   if (floor.id === "ground") {
     ctx.fillStyle = "rgba(255,255,255,0.02)";
-    rr(ctx, 800, 1218, 400, 96, 16);
+    rr(ctx, 800, 1108, 400, 96, 16);
     ctx.fill();
     ctx.strokeStyle = "rgba(255,255,255,0.05)";
     ctx.stroke();
@@ -219,6 +266,21 @@ function drawBooth(ctx: CanvasRenderingContext2D, b: Booth, visited: boolean, ne
   ctx.fillStyle = "rgba(180,184,204,0.72)";
   ctx.font = '500 8.5px "JetBrains Mono Variable", ui-monospace, monospace';
   ctx.fillText(b.category.toUpperCase(), x + w / 2, y + 40);
+
+  const hostX = x + 38;
+  const hostY = y + h - 64;
+  ctx.fillStyle = "rgba(0,0,0,0.35)";
+  ctx.beginPath();
+  ctx.ellipse(hostX, hostY + 19, 12, 4, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = hexA(color, 0.85);
+  ctx.beginPath();
+  ctx.roundRect(hostX - 7, hostY - 1, 14, 21, 6);
+  ctx.fill();
+  ctx.fillStyle = "#D9B08C";
+  ctx.beginPath();
+  ctx.arc(hostX, hostY - 8, 5, 0, Math.PI * 2);
+  ctx.fill();
 
   ctx.fillStyle = "#1B1B28";
   rr(ctx, x + 12, y + h - 46, w - 24, 38, 6);

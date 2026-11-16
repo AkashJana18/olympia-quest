@@ -53,7 +53,7 @@ function makeCrowd(floor: Floor, seed: number): Npc[] {
   const rects = solidRects(floor);
   const crowd: Npc[] = [];
   let guard = 0;
-  while (crowd.length < 16 && guard < 500) {
+  while (crowd.length < 22 && guard < 500) {
     guard += 1;
     const x = 90 + rng() * (floor.width - 180);
     const y = 80 + rng() * (floor.height - 170);
@@ -226,8 +226,20 @@ export class Game {
     this.lastPos = { ...this.player };
     this.cam = this.clampCamera(this.player.x, this.player.y);
     this.mode = "play";
+    this.paused = false;
     this.target = null;
     if (name) this.playerName = name;
+  }
+
+  attract() {
+    this.mode = "attract";
+    this.paused = false;
+    this.target = null;
+    this.nearby = null;
+    this.setFloorData("ground");
+    this.player = { ...FLOORS.ground.spawn };
+    this.cam = this.clampCamera(FLOORS.ground.width / 2, FLOORS.ground.height * 0.45);
+    this.cb.onNearby(null);
   }
 
   setPlayerName(name: string) {
@@ -309,7 +321,11 @@ export class Game {
           this.cb.onNearby(near);
         }
       }
-      const camTarget = this.paused ? this.player : this.player;
+      const ahead = this.view.w < 640 ? 90 : 55;
+      const camTarget = {
+        x: this.player.x + Math.cos(this.facing) * ahead,
+        y: this.player.y + Math.sin(this.facing) * ahead,
+      };
       const k = 1 - Math.exp(-7 * dt);
       const next = {
         x: this.cam.x + (camTarget.x - this.cam.x) * k,
