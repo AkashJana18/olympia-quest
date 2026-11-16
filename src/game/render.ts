@@ -39,6 +39,9 @@ const TONE: Record<string, string> = {
 
 const textureCache = new Map<string, HTMLCanvasElement>();
 
+const solflareImage = new Image();
+solflareImage.src = `${import.meta.env.BASE_URL}solflare/merch.jpg`;
+
 function rr(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath();
   ctx.roundRect(x, y, w, h, r);
@@ -232,7 +235,200 @@ function baseFor(floor: Floor) {
   return tex;
 }
 
-function drawBooth(ctx: CanvasRenderingContext2D, b: Booth, visited: boolean, near: boolean) {
+function drawSolflareBooth(
+  ctx: CanvasRenderingContext2D,
+  b: Booth,
+  visited: boolean,
+  near: boolean,
+  time: number,
+) {
+  const { x, y, w, h } = b;
+  const gold = "#F7B21B";
+  const purple = "#9945FF";
+
+  const halo = ctx.createRadialGradient(x + w / 2, y + h / 2, 20, x + w / 2, y + h / 2, 250);
+  halo.addColorStop(0, "rgba(247,178,27,0.14)");
+  halo.addColorStop(0.55, "rgba(153,69,255,0.06)");
+  halo.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = halo;
+  ctx.fillRect(x - 100, y - 100, w + 200, h + 200);
+
+  ctx.fillStyle = "rgba(0,0,0,0.45)";
+  rr(ctx, x + 12, y + 12, w - 24, h + 10, 12);
+  ctx.fill();
+
+  ctx.fillStyle = "#141019";
+  rr(ctx, x, y - 32, w, h + 32, 12);
+  ctx.fill();
+  ctx.strokeStyle = near ? gold : "rgba(247,178,27,0.38)";
+  ctx.lineWidth = near ? 2 : 1;
+  ctx.stroke();
+
+  const canopy = ctx.createLinearGradient(x, 0, x + w, 0);
+  canopy.addColorStop(0, gold);
+  canopy.addColorStop(0.55, "#FFD166");
+  canopy.addColorStop(1, purple);
+  ctx.fillStyle = canopy;
+  rr(ctx, x + 8, y - 28, w - 16, 18, 4);
+  ctx.fill();
+
+  const sx = x + 14;
+  const sy = y - 16;
+  const sw = 150;
+  const sh = 112;
+  ctx.save();
+  rr(ctx, sx, sy, sw, sh, 8);
+  ctx.clip();
+  if (solflareImage.complete && solflareImage.naturalWidth > 0) {
+    ctx.drawImage(solflareImage, 0, 130, 1000, 740, sx, sy, sw, sh);
+  } else {
+    const g = ctx.createLinearGradient(sx, sy, sx + sw, sy + sh);
+    g.addColorStop(0, "#20152f");
+    g.addColorStop(1, "#3a2a12");
+    ctx.fillStyle = g;
+    ctx.fillRect(sx, sy, sw, sh);
+  }
+  const shade = ctx.createLinearGradient(0, sy + sh - 44, 0, sy + sh);
+  shade.addColorStop(0, "rgba(8,6,12,0)");
+  shade.addColorStop(1, "rgba(8,6,12,0.94)");
+  ctx.fillStyle = shade;
+  ctx.fillRect(sx, sy + sh - 44, sw, 44);
+  ctx.textAlign = "left";
+  ctx.fillStyle = "rgba(255,255,255,0.88)";
+  ctx.font = '600 8px "JetBrains Mono Variable", ui-monospace, monospace';
+  ctx.fillText("BREAKPOINT 2026 MERCH", sx + 10, sy + sh - 12);
+  const scan = sy + ((time * 22) % (sh + 30)) - 15;
+  ctx.fillStyle = "rgba(255,255,255,0.05)";
+  ctx.fillRect(sx, scan, sw, 12);
+  ctx.restore();
+  ctx.strokeStyle = "rgba(247,178,27,0.6)";
+  ctx.lineWidth = 1;
+  rr(ctx, sx, sy, sw, sh, 8);
+  ctx.stroke();
+
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#FFFFFF";
+  ctx.font = '600 20px "Space Grotesk Variable", system-ui, sans-serif';
+  ctx.fillText("Solflare", x + 180, y + 18);
+  ctx.fillStyle = gold;
+  ctx.font = '600 8px "JetBrains Mono Variable", ui-monospace, monospace';
+  ctx.fillText("COMMUNITY HUB", x + 180, y + 32);
+  ctx.fillStyle = "rgba(255,255,255,0.55)";
+  ctx.font = '500 8px "JetBrains Mono Variable", ui-monospace, monospace';
+  ctx.fillText("$150,000 MERCH DROP", x + 180, y + 46);
+
+  ctx.fillStyle = "rgba(0,0,0,0.5)";
+  rr(ctx, x + 180, y + 56, 54, 16, 8);
+  ctx.fill();
+  ctx.fillStyle = "#14F195";
+  ctx.beginPath();
+  ctx.arc(x + 190, y + 64, 2.6, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#CFFFE9";
+  ctx.font = '600 6.5px "JetBrains Mono Variable", ui-monospace, monospace';
+  ctx.fillText("LIVE", x + 197, y + 66.5);
+
+  const rx = x + w - 66;
+  const ry = y + 52;
+  ctx.strokeStyle = "rgba(247,178,27,0.8)";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(rx, ry);
+  ctx.lineTo(rx + 46, ry);
+  ctx.stroke();
+  const shirts = ["#F7B21B", "#0E0E14", "#F4F1E8", "#9945FF"];
+  shirts.forEach((c, i) => {
+    const bx = rx + 5 + i * 11;
+    ctx.fillStyle = c;
+    ctx.beginPath();
+    ctx.moveTo(bx, ry + 6);
+    ctx.lineTo(bx - 3, ry + 10);
+    ctx.lineTo(bx + 1, ry + 13);
+    ctx.lineTo(bx + 1, ry + 24);
+    ctx.lineTo(bx + 9, ry + 24);
+    ctx.lineTo(bx + 9, ry + 13);
+    ctx.lineTo(bx + 13, ry + 10);
+    ctx.lineTo(bx + 10, ry + 6);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = "rgba(255,255,255,0.18)";
+    ctx.lineWidth = 0.6;
+    ctx.stroke();
+  });
+
+  ctx.fillStyle = "#1C1620";
+  rr(ctx, x + 12, y + h - 42, w - 24, 36, 6);
+  ctx.fill();
+  ctx.strokeStyle = "rgba(247,178,27,0.25)";
+  ctx.stroke();
+  ctx.fillStyle = "#FFE6A8";
+  ctx.font = '600 8px "JetBrains Mono Variable", ui-monospace, monospace';
+  ctx.fillText("CLAIM THE DROP", x + 22, y + h - 20);
+
+  const qx = x + w - 46;
+  const qy = y + h - 36;
+  ctx.fillStyle = "#F4F1E8";
+  rr(ctx, qx, qy, 24, 24, 3);
+  ctx.fill();
+  ctx.fillStyle = "#141019";
+  for (let i = 0; i < 6; i += 1) {
+    for (let j = 0; j < 6; j += 1) {
+      if ((i * 7 + j * 3) % 4 < 2) ctx.fillRect(qx + 3 + i * 3, qy + 3 + j * 3, 2, 2);
+    }
+  }
+
+  ctx.fillStyle = "rgba(0,0,0,0.35)";
+  ctx.beginPath();
+  ctx.ellipse(x + 36, y + h - 46, 12, 4, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = gold;
+  ctx.beginPath();
+  ctx.roundRect(x + 29, y + h - 66, 14, 21, 6);
+  ctx.fill();
+  ctx.fillStyle = "#D9B08C";
+  ctx.beginPath();
+  ctx.arc(x + 36, y + h - 73, 5, 0, Math.PI * 2);
+  ctx.fill();
+
+  if (visited) {
+    ctx.fillStyle = "#14F195";
+    ctx.beginPath();
+    ctx.arc(x + w - 15, y - 14, 9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#04120C";
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(x + w - 19, y - 14);
+    ctx.lineTo(x + w - 16, y - 11);
+    ctx.lineTo(x + w - 11, y - 18);
+    ctx.stroke();
+    ctx.lineCap = "butt";
+  }
+
+  if (near) {
+    ctx.save();
+    ctx.shadowColor = gold;
+    ctx.shadowBlur = 28;
+    ctx.strokeStyle = gold;
+    ctx.lineWidth = 2;
+    rr(ctx, x + 1, y - 31, w - 2, h + 30, 11);
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+
+function drawBooth(
+  ctx: CanvasRenderingContext2D,
+  b: Booth,
+  visited: boolean,
+  near: boolean,
+  time: number,
+) {
+  if (b.featured) {
+    drawSolflareBooth(ctx, b, visited, near, time);
+    return;
+  }
   const { x, y, w, h, color } = b;
 
   ctx.fillStyle = "rgba(0,0,0,0.38)";
@@ -823,7 +1019,14 @@ export function drawFrame(ctx: CanvasRenderingContext2D, o: FrameOptions) {
     if (!visible(b.x, b.y - 30, b.w, b.h + 40)) continue;
     items.push({
       y: b.y + b.h,
-      draw: () => drawBooth(ctx, b, o.visited.has(`booth:${b.id}`), o.nearbyId === `booth:${b.id}`),
+      draw: () =>
+        drawBooth(
+          ctx,
+          b,
+          o.visited.has(`booth:${b.id}`),
+          o.nearbyId === `booth:${b.id}`,
+          o.time,
+        ),
     });
   }
 

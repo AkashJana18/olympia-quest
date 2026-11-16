@@ -34,7 +34,7 @@ import { AboutPanel } from "./ui/AboutPanel";
 import { MenuPanel } from "./ui/MenuPanel";
 import "./styles.css";
 
-const GAME_URL = "https://akashjana18.github.io/olympia-quest/";
+const GAME_URL = "https://breakpoint26.solanaconsensuslab.com/";
 
 type Panel =
   | { kind: "quests" }
@@ -258,6 +258,14 @@ export default function App() {
     toast(`Demo logged · ${panel.booth.sponsor}`, "info", "Counted as a qualified lead.");
   }, [commit, panel, toast]);
 
+  const openHub = useCallback(() => {
+    if (panel?.kind !== "booth" || panel.booth.id !== "solflare") return;
+    const p = playerRef.current;
+    if (!p) return;
+    commit(recordBoothAction(p, panel.booth.id));
+    fire({ type: "spot", spotId: "hub:solflare" });
+  }, [commit, fire, panel]);
+
   const copyBrief = useCallback(() => {
     if (panel?.kind !== "booth") return;
     const { sponsor, category, tagline, offer } = panel.booth;
@@ -312,7 +320,7 @@ export default function App() {
   const share = useCallback(async () => {
     const p = playerRef.current;
     const text = p
-      ? `I walked the remote floor of Breakpoint 2026: ${p.points} pts, ${p.stamps.length}/12 booth stamps, ${p.completed.length}/12 quests.`
+      ? `I walked the remote floor of Breakpoint 2026: ${p.points} pts, ${p.stamps.length}/12 booth stamps, ${p.completed.length}/${QUESTS.length} quests.`
       : "Walk the remote floor of Breakpoint 2026: two levels, twelve booths, twelve quests.";
     if (navigator.share) {
       try {
@@ -448,6 +456,7 @@ export default function App() {
           stat={player.stats[panel.booth.id]}
           onTry={tryDemo}
           onCopy={copyBrief}
+          onHub={openHub}
           onClose={closePanel}
         />
       )}

@@ -2,7 +2,7 @@
 
 **A playable remote floor for Solana Breakpoint 2026.**
 
-[Play it in the browser](https://akashjana18.github.io/olympia-quest/) (desktop or phone, no wallet needed).
+[Play it in the browser](https://breakpoint26.solanaconsensuslab.com/) (desktop or phone, no wallet needed). The GitHub Pages mirror is at [akashjana18.github.io/olympia-quest](https://akashjana18.github.io/olympia-quest/).
 
 ![Olympia Quest](public/og.png)
 
@@ -13,7 +13,8 @@ Olympia Quest is an unofficial companion for Breakpoint 2026 in London. If you c
 ## What is in the build
 
 - Two explorable floors: Main Stage and sponsor rows downstairs, Royal Exchange, Builder Zone, Market Square and The Borough Block upstairs.
-- Twelve quests, twelve demo booths, and a 406 point clear.
+- Twelve quests, twelve booths, and a 421 point clear.
+- A real Solflare Community Hub activation: the official merch image from @solflare on X, the $150,000 drop steps, and a direct link to hub.solflare.com.
 - A walkable canvas world with collisions, ambient crowd, floor switching, minimap and proximity prompts.
 - Wallet optional. Connect Phantom, Solflare or Backpack to sign a receipt with `signMessage`. Nothing is spent, sent or gated.
 - A local leaderboard seeded with demo players.
@@ -30,6 +31,10 @@ Ground floor, with the Main Stage and the sponsor rows:
 First floor, with Market Square and The Borough Block:
 
 ![First floor](docs/first-floor.png)
+
+The real Solflare Community Hub activation, with the official merch image from X:
+
+![Solflare Hub](docs/solflare-hub.png)
 
 ## Play
 
@@ -100,7 +105,7 @@ npm install
 npm run dev
 ```
 
-The dev server serves the app at `/olympia-quest/` because `vite.config.ts` sets the GitHub Pages base path.
+The dev server serves the app at `/`. The GitHub Pages workflow sets `VITE_BASE=/olympia-quest/` for the mirror build; Vercel uses the default root base.
 
 ```bash
 npm run build
@@ -109,7 +114,18 @@ npm run preview
 
 ## Deploy
 
-The repository ships with a GitHub Pages workflow in `.github/workflows/deploy.yml`. Push to `main`, then set the Pages source to **GitHub Actions** in repository settings if it is not already enabled.
+### Vercel (primary)
+
+The primary deployment is `breakpoint26.solanaconsensuslab.com`, built by Vercel from this repo with `vercel.json`.
+
+```bash
+npx vercel --prod
+npx vercel domains add breakpoint26.solanaconsensuslab.com
+```
+
+### GitHub Pages (mirror)
+
+The repository also ships with a GitHub Pages workflow in `.github/workflows/deploy.yml`. Push to `main`, then set the Pages source to **GitHub Actions** in repository settings if it is not already enabled.
 
 If you rename the repository, update `base` in `vite.config.ts` and the absolute `og:url` and `og:image` URLs in `index.html`.
 

@@ -9,7 +9,9 @@ const booth = (
   color: string,
   x: number,
   y: number,
-): Booth => ({ id, sponsor, category, tagline, offer, color, x, y, w: 200, h: 140 });
+  w = 200,
+  h = 140,
+): Booth => ({ id, sponsor, category, tagline, offer, color, x, y, w, h });
 
 const plant = (id: string, x: number, y: number): Prop => ({ id, kind: "plant", x, y, w: 40, h: 40 });
 const pillar = (id: string, x: number, y: number): Prop => ({ id, kind: "pillar", x, y, w: 40, h: 40 });
@@ -25,7 +27,7 @@ export const GROUND: Floor = {
   zones: [
     { id: "main-stage", name: "Main Stage", x: 600, y: 90, w: 800, h: 360, tone: "stage" },
     { id: "sponsor-left", name: "Sponsor Row · West", x: 120, y: 460, w: 520, h: 480, tone: "sponsor" },
-    { id: "sponsor-right", name: "Sponsor Row · East", x: 1380, y: 460, w: 500, h: 480, tone: "sponsor" },
+    { id: "sponsor-right", name: "Sponsor Row · East", x: 1380, y: 460, w: 560, h: 480, tone: "sponsor" },
     { id: "pitstop", name: "The Pitstop", x: 140, y: 1010, w: 580, h: 340, tone: "food" },
     { id: "lounge", name: "The Lounge", x: 1280, y: 1010, w: 580, h: 340, tone: "lounge" },
     { id: "entry", name: "Entrance", x: 760, y: 1100, w: 480, h: 240, tone: "entry" },
@@ -35,8 +37,25 @@ export const GROUND: Floor = {
     booth("northstar", "Northstar", "Infrastructure", "RPC that never blinks.", "Live latency board", "#5AA7FF", 410, 500),
     booth("sable", "Sable", "Privacy", "Prove it without showing it.", "ZK credential demo", "#FF6EC7", 170, 760),
     booth("tessera", "Tessera", "Payments", "Stablecoins at till speed.", "Tap-to-pay counter", "#14F195", 410, 760),
-    booth("orbit", "Orbit", "Consumer", "Your wallet, on every app.", "One-tap onboarding", "#FFB347", 1430, 500),
-    booth("meridian", "Meridian", "RWA", "London property, onchain.", "Fractional deed demo", "#2DD4BF", 1670, 500),
+    {
+      ...booth(
+        "solflare",
+        "Solflare Hub",
+        "Wallet · Merch",
+        "Your points, your merch.",
+        "Claim the Breakpoint drop",
+        "#F7B21B",
+        1410,
+        490,
+        300,
+        150,
+      ),
+      image: "solflare/merch.jpg",
+      link: "https://hub.solflare.com",
+      kicker: "COMMUNITY HUB",
+      featured: true,
+    },
+    booth("meridian", "Meridian", "RWA", "London property, onchain.", "Fractional deed demo", "#2DD4BF", 1750, 500, 190),
     booth("keystone", "Keystone", "Security", "Squads that sign safely.", "Multisig drill", "#FF7A70", 1430, 760),
     booth("halcyon", "Halcyon", "Gaming", "Playable worlds, real loot.", "Boss run", "#C084FC", 1670, 760),
   ],
@@ -187,7 +206,7 @@ export function getSpots(floor: Floor): Spot[] {
       hint: b.category,
       x: b.x + b.w / 2,
       y: b.y + b.h + 34,
-      radius: 80,
+      radius: b.featured ? 112 : 80,
       booth: b,
     });
   }

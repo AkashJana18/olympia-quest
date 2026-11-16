@@ -149,7 +149,7 @@ export function TitleScreen({ saved, onStart, onContinue, onShare, onAbout }: Pr
           </div>
         </div>
         <div className="card-foot">
-          <span>406 pts clears the board</span>
+          <span>421 pts clears the board</span>
           <button className="text-btn" onClick={onShare}>
             Share <Icon name="share" size={14} />
           </button>

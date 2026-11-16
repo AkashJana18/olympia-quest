@@ -25,8 +25,9 @@ export function AboutPanel({ player, onClose, onReset }: Props) {
         <div>
           <span className="eyebrow">WHAT THIS IS</span>
           <p>
-            An unofficial companion concept: two stylised floors of Olympia London, twelve fictional
-            demo sponsors, twelve quests, a leaderboard and a sponsor-facing report.
+            An unofficial companion concept: two stylised floors of Olympia London, eleven fictional
+            demo sponsors, a real Solflare Community Hub mockup, twelve quests, a leaderboard and a
+            sponsor-facing report.
           </p>
         </div>
         <div>

@@ -13,6 +13,10 @@ export type Booth = {
   y: number;
   w: number;
   h: number;
+  image?: string;
+  link?: string;
+  kicker?: string;
+  featured?: boolean;
 };
 
 export type ZoneTone = "stage" | "sponsor" | "food" | "lounge" | "market" | "build" | "entry";

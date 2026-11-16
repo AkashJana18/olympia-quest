@@ -46,7 +46,7 @@ export function QuestPanel({ player, onClose, onSign, signingId, wallet, onConne
         <div>
           <b>
             {done}
-            <small>/12</small>
+            <small>/{QUESTS.length}</small>
           </b>
           <span>quests</span>
         </div>
@@ -69,7 +69,7 @@ export function QuestPanel({ player, onClose, onSign, signingId, wallet, onConne
           className={tab === "quests" ? "tab active" : "tab"}
           onClick={() => setTab("quests")}
         >
-          Quests <span>{done}/12</span>
+          Quests <span>{done}/{QUESTS.length}</span>
         </button>
         <button
           role="tab"
