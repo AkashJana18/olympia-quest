@@ -31,7 +31,9 @@ export function ReportPanel({ player, onClose }: Props) {
     const a = document.createElement("a");
     a.href = url;
     a.download = "olympia-quest-sponsor-report.csv";
+    document.body.appendChild(a);
     a.click();
+    a.remove();
     URL.revokeObjectURL(url);
   };
 
