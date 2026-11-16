@@ -169,8 +169,8 @@ export function TitleScreen({ saved, onStart, onContinue, onShare, onAbout }: Pr
       </div>
 
       <p className="title-disclaimer">
-        Unofficial fan project. Not affiliated with Solana Foundation or Olympia London. Sponsor
-        booths are fictional demos.
+        Unofficial fan project. Not affiliated with Solana Foundation, Olympia London or Solflare.
+        Solflare Hub is a real activation; this booth is a mockup. Other booths are fictional.
       </p>
     </div>
   );

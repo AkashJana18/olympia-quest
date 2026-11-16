@@ -8,7 +8,7 @@
 
 Olympia Quest is an unofficial companion for Breakpoint 2026 in London. If you could not make it to Olympia, this lets you walk a stylised version of the venue, collect stamps at demo sponsor booths, clear quests, sign receipts with a Solana wallet, and see the sponsor report that would make the whole thing pay for itself.
 
-> Unofficial fan project. Not affiliated with Solana Foundation or Olympia London. Sponsor booths are fictional demos. The venue layout is inspired by the public Breakpoint 2026 map, not a survey.
+> Unofficial fan project. Not affiliated with Solana Foundation, Olympia London, or Solflare. The Solflare Community Hub is a real activation; this booth, its quest and its metrics are an unofficial mockup, and the merch image is credited to @solflare on X. All other sponsor booths are fictional. The venue layout is inspired by the public Breakpoint 2026 map, not a survey.
 
 ## What is in the build
 

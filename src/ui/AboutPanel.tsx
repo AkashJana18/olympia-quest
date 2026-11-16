@@ -33,8 +33,9 @@ export function AboutPanel({ player, onClose, onReset }: Props) {
         <div>
           <span className="eyebrow">WHAT THIS IS NOT</span>
           <p>
-            Not affiliated with Solana Foundation or Olympia London. No real sponsor paid for this.
-            The venue is inspired by the public Breakpoint map, not a survey.
+            Not affiliated with Solana Foundation, Olympia London or Solflare. The Solflare Community
+            Hub is real; this booth is an unofficial mockup. No sponsor paid for this. The venue is
+            inspired by the public Breakpoint map, not a survey.
           </p>
         </div>
       </div>
