@@ -47,15 +47,15 @@ export function TopBar({ player, floor, wallet, onOpen, onShare, onConnect }: Pr
         </div>
 
         <nav className="topnav">
-          <button className="nav-btn" onClick={() => onOpen("quests")}>
+          <button className="nav-btn" onClick={() => onOpen("quests")} title="Quests and receipts">
             <Icon name="quest" size={16} />
             <span>Quests</span>
           </button>
-          <button className="nav-btn" onClick={() => onOpen("board")}>
+          <button className="nav-btn" onClick={() => onOpen("board")} title="Leaderboard">
             <Icon name="board" size={16} />
             <span>Board</span>
           </button>
-          <button className="nav-btn" onClick={() => onOpen("report")}>
+          <button className="nav-btn" onClick={() => onOpen("report")} title="Sponsor report">
             <Icon name="report" size={16} />
             <span>Report</span>
           </button>

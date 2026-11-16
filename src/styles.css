@@ -923,6 +923,10 @@ kbd {
   border-radius: 6px;
 }
 
+.mobile-objective {
+  display: none;
+}
+
 /* ---------- Prompt and hints ---------- */
 
 .prompt {
@@ -2525,6 +2529,12 @@ kbd {
   .tracker {
     display: none;
   }
+  .points-pill em {
+    display: none;
+  }
+}
+
+@media (max-width: 940px) {
   .nav-btn span {
     display: none;
   }
@@ -2532,9 +2542,6 @@ kbd {
     width: 31px;
     justify-content: center;
     padding: 0;
-  }
-  .points-pill em {
-    display: none;
   }
 }
 
@@ -2594,6 +2601,42 @@ kbd {
   }
   .minimap canvas {
     height: 68px;
+  }
+  .mobile-objective {
+    position: absolute;
+    top: calc(64px + env(safe-area-inset-top));
+    right: 124px;
+    left: 8px;
+    z-index: 11;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    height: 34px;
+    padding: 0 9px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: rgba(10, 10, 17, 0.8);
+    text-align: left;
+    backdrop-filter: blur(10px);
+  }
+  .mobile-objective .eyebrow {
+    font-size: 6.5px;
+    letter-spacing: 0.1em;
+    color: var(--green);
+  }
+  .mobile-objective b {
+    flex: 1;
+    overflow: hidden;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .mobile-objective em {
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-style: normal;
   }
   .toasts {
     top: calc(62px + env(safe-area-inset-top));
@@ -2799,6 +2842,12 @@ kbd {
     display: none;
   }
   .minimap {
+    display: none;
+  }
+  .mobile-objective {
+    display: none;
+  }
+  .joystick-label {
     display: none;
   }
   .topbar {

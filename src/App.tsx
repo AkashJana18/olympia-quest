@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Game } from "./game/engine";
 import { FLOORS } from "./game/world";
+import { QUESTS } from "./game/quests";
 import type { Booth, FloorId, Spot, Stage, Vec } from "./game/types";
 import {
   applyEvent,
@@ -79,6 +80,8 @@ export default function App() {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
   const [signingId, setSigningId] = useState<string | null>(null);
   const [transition, setTransition] = useState<{ label: string; sub: string; key: number } | null>(null);
+
+  const nextQuest = player ? QUESTS.find((q) => !player.completed.includes(q.id)) : undefined;
 
   const toast = useCallback((title: string, tone: ToastTone = "info", sub?: string) => {
     const id = `t${++toastSeq.current}`;
@@ -215,8 +218,15 @@ export default function App() {
         game.setVisited(p.stamps.map((id) => `booth:${id}`));
       }
       fire({ type: "floor", floorId: p.floor });
+      if (p.points === 0 && p.completed.length === 0 && p.stamps.length === 0) {
+        toast(
+          "You are in. Find the Main Stage.",
+          "info",
+          isTouch ? "Joystick to move, action button to interact." : "WASD to move, E to interact.",
+        );
+      }
     },
-    [fire],
+    [fire, isTouch, toast],
   );
 
   const startRun = useCallback(
@@ -358,6 +368,14 @@ export default function App() {
           />
           <QuestTracker player={player} onOpen={() => setPanel({ kind: "quests" })} />
           <Minimap gameRef={gameRef} floor={floor} />
+
+          {isTouch && nextQuest && (
+            <button className="mobile-objective" onClick={() => setPanel({ kind: "quests" })}>
+              <span className="eyebrow">NEXT</span>
+              <b>{nextQuest.title}</b>
+              <em>+{nextQuest.points}</em>
+            </button>
+          )}
 
           {!isTouch && nearby && (
             <button className="prompt" onClick={() => handleInteract(nearby)}>
