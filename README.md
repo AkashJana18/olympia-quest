@@ -21,6 +21,16 @@ Olympia Quest is an unofficial companion for Breakpoint 2026 in London. If you c
 - Responsive controls: WASD and click-to-move on desktop, virtual joystick and action button on touch.
 - No backend, no analytics, no account. Progress lives in `localStorage`.
 
+## Screens
+
+Ground floor, with the Main Stage and the sponsor rows:
+
+![Ground floor](docs/world.png)
+
+First floor, with Market Square and The Borough Block:
+
+![First floor](docs/first-floor.png)
+
 ## Play
 
 Desktop:
